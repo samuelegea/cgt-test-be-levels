@@ -35,8 +35,5 @@ jobs:
         with:
           bundler-cache: true
       
-      - name: Install gems
-        run: bundle install
-      
       - name: Run tests
         run: rspec
