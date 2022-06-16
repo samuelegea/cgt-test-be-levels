@@ -1,4 +1,4 @@
-require 'cgtrader_levels/version'
+require_relative './cgtrader_levels/version'
 
 module CgtraderLevels
   autoload :User, 'cgtrader_levels/models/user'

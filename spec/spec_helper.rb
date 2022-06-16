@@ -9,4 +9,5 @@ SimpleCov.start
 
 require 'cgtrader_levels'
 
-RSpec.configure { |config| }
+# RSpec.configure do |config|
+# end
