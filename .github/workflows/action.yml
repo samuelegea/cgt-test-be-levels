@@ -1,0 +1,39 @@
+name: "Tests"
+on:
+  push:
+
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      
+      - name: Install rubocop gems
+        run: gem install rubocop rubocop-performance rubocop-rspec
+
+      - name: Check code
+        run: rubocop
+
+  rspec_suite:
+    name: Rspec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      
+      - name: Run tests
+        run: rspec
