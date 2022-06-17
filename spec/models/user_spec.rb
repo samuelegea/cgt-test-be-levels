@@ -1,11 +1,16 @@
 require_relative '../spec_helper'
 
-describe 'CgtraderLevels::User' do
+describe CgtraderLevels::User do
 
-  let(:user) { CgtraderLevels::User.create! }
+  let(:user) { described_class.create! }
   let!(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
-  let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'First level') }
-  let!(:level3) { CgtraderLevels::Level.create!(experience: 13, title: 'First level') }
+  let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+  let!(:level3) { CgtraderLevels::Level.create!(experience: 13, title: 'Third level') }
+
+  let(:privilege) { CgtraderLevels::Privilege.create! privilege_type: :tax_reduction, amount: 1 }
+  let(:privilege2) { CgtraderLevels::Privilege.create! privilege_type: :tax_reduction, amount: 5 }
+  let!(:level_privilege) { level2.privileges << privilege }
+  let!(:level_privilege2) { level3.privileges << privilege2 }
 
   describe 'new user' do
     it 'has 0 reputation points' do
@@ -28,14 +33,12 @@ describe 'CgtraderLevels::User' do
   end
 
   describe 'level up bonuses & privileges' do
-    it 'gives 7 coins to user' do
-      pending
-
-      user = CgtraderLevels::User.create!(coins: 1)
-
-      expect { user.update_attribute(reputation: 10) }.to change { user.reload.coins }.from(1).to(8)
+    it 'gives 7 coins to user when level 2' do
+      expect { user.update_attribute(:reputation, 10) }.to change { user.reload.coins }.from(0).to(7)
     end
 
-    it 'reduces tax rate by 1'
+    it 'reduces tax rate by 1 when level 2' do
+      expect { user.update_attribute(:reputation, 10) }.to change(user, :tax_with_level_bonuses).by(-1)
+    end
   end
 end
