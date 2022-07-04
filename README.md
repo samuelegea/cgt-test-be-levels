@@ -45,7 +45,7 @@ Pros
 
 
 ### Cons
-ß
+
 * Level up does increase coins, but by a constant amount - this should be configurable in Privilege. Furthermore, tax_reduction is unaffected. It feels like the implementation is incomplete. Did you stop because of time pressure? :think:
 * Multi-level upgrades do not work
 * Level-down does not work, although it's not mentioned explicitly in readme requirements either
