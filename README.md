@@ -26,3 +26,42 @@ needs to be maintained.
 * When finished, send us the link or the zip of the project via e-mail.
 
 Good luck!
+
+
+## FEEDBACK
+
+Also, I am sharing feedback about your task. If you have some counter-feedback, that’s warmly welcome :)
+Pros
+
+### * Code does what is expected
+
+* All specs pass
+* Used lets in specs
+* Decent specs
+* Gem versions unlocked in gemspec
+* Nice organization of models and associations (has_and_belongs_to_many)
+* Replaced attr_reader :level with association
+* Code is easy to understand
+
+
+### Cons
+ß
+* Level up does increase coins, but by a constant amount - this should be configurable in Privilege. Furthermore, tax_reduction is unaffected. It feels like the implementation is incomplete. Did you stop because of time pressure? :think:
+* Multi-level upgrades do not work
+* Level-down does not work, although it's not mentioned explicitly in readme requirements either
+
+### Nitpicks
+
+* Database could use some more null: falses
+* Instead of self.level_id = matching_level.id, one could skip the _id part: self.level = matching_level
+* Could use the new beginless range ruby syntax in CgtraderLevels::Level.where(experience: ..reputation)
+* Did not use rubocop for cody styling (but did use in GH actions)
+* One could argue a simple update_column is preferable to the somewhat rare (at least from my experience) self.class.update_counters method
+* The 2 DB tranasactions in set_new_level could be merged for better performance
+
+### Notes
+
+* GitHub actions is a nice touch!
+
+Conclusion
+7/10. Nice and easy to understand code. But incomplete(?) and missing multi-level upgrades (and level-downs).
