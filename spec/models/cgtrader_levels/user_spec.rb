@@ -21,21 +21,21 @@ describe CgtraderLevels::User do
 
   describe 'when level up' do
     it "from 'First level' to 'Second level'" do
-      expect { user.update_attribute(:reputation, 10) }.to change { user.reload.level }.from(level1).to(level2)
+      expect { user.update!(reputation: 10) }.to change { user.reload.level }.from(level1).to(level2)
     end
 
     it "from 'First level' to 'Second level' with more reputation than necessary" do
-      expect { user.update_attribute(:reputation, 11) }.to change { user.reload.level }.from(level1).to(level2)
+      expect { user.update!(reputation: 11) }.to change { user.reload.level }.from(level1).to(level2)
     end
   end
 
   describe 'when level up bonuses & privileges' do
     it 'gives 7 coins to user when level 2' do
-      expect { user.update_attribute(:reputation, 10) }.to change { user.reload.coins }.from(0).to(7)
+      expect { user.update!(reputation: 10) }.to change { user.reload.coins }.from(0).to(7)
     end
 
     it 'reduces tax rate by 1 when level 2' do
-      expect { user.update_attribute(:reputation, 10) }.to change(user, :tax_with_level_bonuses).by(-4)
+      expect { user.update!(reputation: 10) }.to change(user, :tax_with_level_bonuses).by(-4)
     end
   end
 end
