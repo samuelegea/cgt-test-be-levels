@@ -46,7 +46,7 @@ Layout/ClassStructure:
   Enabled: true
 
 Layout/RedundantLineBreak:
-  Enabled: true
+  Enabled: false
 
 Layout/TrailingWhitespace:
   AllowInHeredoc: false
@@ -89,6 +89,9 @@ Metrics/ClassLength:
 Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
+    
+RSpec/LetSetup:
+  Enabled: false
 
 Naming/InclusiveLanguage:
   Enabled: true

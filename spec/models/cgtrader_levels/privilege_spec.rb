@@ -3,10 +3,10 @@
 require_relative '../../spec_helper'
 
 describe CgtraderLevels::Privilege do
-  let(:privilege) { described_class.create! privilege_type: :tax_reduction, amount: 1 }
-  let(:privilege2) { described_class.create! privilege_type: :tax_reduction, amount: 5 }
   let!(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
   let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+  let(:privilege) { level1.privileges.create! privilege_type: :tax_reduction, amount: 1 }
+  let(:privilege2) { level2.privileges.create! privilege_type: :tax_reduction, amount: 5 }
 
   describe 'Level-privileges' do
     context 'when Level 1 should have 1 tax reduction' do
