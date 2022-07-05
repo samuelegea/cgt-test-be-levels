@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './cgtrader_levels/version'
 
 module CgtraderLevels

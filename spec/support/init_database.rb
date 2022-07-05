@@ -1,10 +1,7 @@
-require 'active_record'
+# frozen_string_literal: true
 
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: ':memory:',
-  verbosity: 'quiet'
-)
+require 'active_record'
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:', verbosity: 'quiet')
 
 ActiveRecord::Base.connection.create_table :users do |t|
   t.string :username
