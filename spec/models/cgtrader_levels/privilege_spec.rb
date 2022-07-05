@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
 describe CgtraderLevels::Privilege do
   let(:privilege) { described_class.create! privilege_type: :tax_reduction, amount: 1 }
