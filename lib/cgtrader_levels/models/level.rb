@@ -8,7 +8,7 @@ module CgtraderLevels
     after_create :create_privilege_coins
 
     def levelup_reward_coins
-      privileges.where(privilege_type: :level_up_coins).pluck(:amount).compact.sum
+      privileges.level_up_coins.pluck(:amount).compact.sum
     end
 
     private
