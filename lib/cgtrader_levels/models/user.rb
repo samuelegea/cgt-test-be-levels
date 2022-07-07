@@ -1,32 +1,47 @@
-class CgtraderLevels::User < ActiveRecord::Base
+# frozen_string_literal: true
 
-  belongs_to :level, class_name: 'CgtraderLevels::Level', foreign_key: 'level_id'
+module CgtraderLevels
+  class User < ActiveRecord::Base
+    belongs_to :level, class_name: 'CgtraderLevels::Level', foreign_key: 'level_id'
 
-  after_save :set_new_level
+    before_save :set_new_level
+    delegate :privileges, to: :level
 
-  def tax_with_level_bonuses
-    tax - level.privileges.where(privilege_type: :tax_reduction).sum(:amount)
-  end
+    def tax_with_level_bonuses
+      tax - privileges.where(privilege_type: :tax_reduction).sum(:amount)
+    end
 
-  private
+    private
 
-  def set_new_level
-    return unless matching_level
+    def set_new_level
+      return unless matching_level || !reputation_changed?
 
-    increase_level_bonus_coins if level_up?
+      increment :coins, coin_rewards(levels_passed) if level_up? || reputation.zero?
+      self.level = matching_level
+    end
 
-    update_column :level_id, matching_level.id
-  end
+    def matching_level
+      CgtraderLevels::Level.where(experience: ..reputation).order(number: :desc).first
+    end
 
-  def matching_level
-    CgtraderLevels::Level.where('experience <= ?', reputation).order(experience: :desc).first
-  end
+    def coin_rewards(levels_passed)
+      levels_passed.sum(&:levelup_reward_coins)
+    end
 
-  def increase_level_bonus_coins
-    self.class.update_counters id, coins: 7
-  end
+    def levels_passed
+      CgtraderLevels::Level.where(experience: ..reputation).select { |new_level| new_level.number > current_level_number }
+    end
 
-  def level_up?
-    matching_level.experience > (level&.experience || 0)
+    def qtd_levels_passed
+      matching_level.number - current_level_number
+    end
+
+    def level_up?
+      qtd_levels_passed.positive?
+    end
+
+    def current_level_number
+      level&.number || 0
+    end
   end
 end
