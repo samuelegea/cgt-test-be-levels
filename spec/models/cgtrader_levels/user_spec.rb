@@ -3,11 +3,11 @@
 require_relative '../../spec_helper'
 
 describe CgtraderLevels::User do
-  let(:user) { described_class.create! }
-  let(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
-  let(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
-  let!(:privilege) { level1.privileges.create! privilege_type: :tax_reduction, amount: 1 }
-  let!(:privilege2) { level2.privileges.create! privilege_type: :tax_reduction, amount: 5 }
+  let!(:level1) { create(:level) }
+  let!(:level2) { create(:level, number: 1, experience: 10, title: 'Second level', privileges: [privilege]) }
+
+  let(:user) { create(:user) }
+  let(:privilege) { create(:privilege, privilege_type: :tax_reduction, amount: 5) }
 
   describe 'when new user' do
     it 'has 0 reputation points' do
@@ -30,12 +30,20 @@ describe CgtraderLevels::User do
   end
 
   describe 'when level up bonuses & privileges' do
-    it 'gives 7 coins to user when level 2' do
-      expect { user.update!(reputation: 10) }.to change { user.reload.coins }.from(0).to(7)
+    it 'gives 5 coins to user when level 2' do
+      expect { user.update!(reputation: 10) }.to change { user.reload.coins }.by(5)
     end
 
     it 'reduces tax rate by 1 when level 2' do
       expect { user.update!(reputation: 10) }.to change(user, :tax_with_level_bonuses).by(-4)
     end
+  end
+
+  describe 'when multi-level up' do
+    # WIP
+  end
+
+  describe 'when level down' do
+    # WIP
   end
 end

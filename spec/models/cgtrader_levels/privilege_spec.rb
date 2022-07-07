@@ -3,8 +3,8 @@
 require_relative '../../spec_helper'
 
 describe CgtraderLevels::Privilege do
-  let!(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
-  let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+  let!(:level1) { create(:level) }
+  let!(:level2) { create(:level, experience: 10, title: 'Second level') }
   let(:privilege) { level1.privileges.create! privilege_type: :tax_reduction, amount: 1 }
   let(:privilege2) { level2.privileges.create! privilege_type: :tax_reduction, amount: 5 }
 

@@ -3,6 +3,7 @@
 module CgtraderLevels
   class Privilege < ActiveRecord::Base
     enum privilege_type: [
+      :level_up_coins,
       :tax_reduction,
       :bonus_coins
     ]
